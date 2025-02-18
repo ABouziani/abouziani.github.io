@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction Graph</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+        svg {
+            border: 1px solid black;
+            background-color: #f9f9f9;
+        }
+        .tooltip {
+            position: absolute;
+            display: none;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 12px;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Transaction Amounts Over Time (Cumulative)</h2>
+    <div id="graph-container" style="position: relative;"></div>
+    
+
+    <script>
+        function renderGraph(data) {
+            // Sort data by date
+            data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+
+            // Calculate cumulative XP
+            let cumulativeXP = 0;
+            data.forEach(d => {
+                cumulativeXP += d.amount;
+                d.cumulativeXP = cumulativeXP;
+            });
+
+            // Define SVG dimensions
+            const width = 700, height = 350;
+            const padding = 50;
+
+            // Convert timestamps to numeric values
+            const times = data.map(d => new Date(d.createdAt).getTime());
+            const xMin = Math.min(...times), xMax = Math.max(...times);
+            const yMin = Math.min(...data.map(d => d.cumulativeXP)), yMax = Math.max(...data.map(d => d.cumulativeXP));
+
+            // Scale functions
+            const xScale = t => padding + ((t - xMin) / (xMax - xMin)) * (width - 2 * padding);
+            const yScale = xp => height - padding - ((xp - yMin) / (yMax - yMin)) * (height - 2 * padding);
+
+            // Create SVG
+            const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+            svg.setAttribute("width", width);
+            svg.setAttribute("height", height);
+            
+            // Tooltip reference
+            const tooltip = document.getElementById("tooltip");
+
+            // Draw lines
+            for (let i = 0; i < data.length - 1; i++) {
+                let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+                line.setAttribute("x1", xScale(times[i]));
+                line.setAttribute("y1", yScale(data[i].cumulativeXP));
+                line.setAttribute("x2", xScale(times[i + 1]));
+                line.setAttribute("y2", yScale(data[i + 1].cumulativeXP));
+                line.setAttribute("stroke", "blue");
+                line.setAttribute("stroke-width", 2);
+                svg.appendChild(line);
+            }
+
+            // Draw points & tooltips
+            data.forEach((d, i) => {
+                let cx = xScale(times[i]);
+                let cy = yScale(d.cumulativeXP);
+
+                // Circle for each point
+                let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+                circle.setAttribute("cx", cx);
+                circle.setAttribute("cy", cy);
+                circle.setAttribute("r", 5);
+                circle.setAttribute("fill", "red");
+                circle.setAttribute("data-time", new Date(d.createdAt).toLocaleString());
+                circle.setAttribute("data-xp", d.cumulativeXP);
+                svg.appendChild(circle);
+
+                // Tooltip events
+                circle.addEventListener("mouseover", (event) => {
+                    tooltip.style.display = "block";
+                    tooltip.textContent = `Date: ${circle.getAttribute("data-time")}\nXP: ${circle.getAttribute("data-xp")}`;
+                });
+
+                circle.addEventListener("mousemove", (event) => {
+                    tooltip.style.left = event.pageX + 10 + "px";
+                    tooltip.style.top = event.pageY + 10 + "px";
+                });
+
+                circle.addEventListener("mouseout", () => {
+                    tooltip.style.display = "none";
+                });
+            });
+
+            // Append SVG to the container
+            document.getElementById("graph-container").appendChild(svg);
+        }
+
+        // Example transactions
+        const transactions = [
+            { "createdAt": "2024-07-15T10:35:28.853954+00:00", "amount": 5000 },
+            { "createdAt": "2024-07-20T12:15:31.241167+00:00", "amount": 6125 },
+            { "createdAt": "2024-07-22T10:00:00.397512+00:00", "amount": 6125 },
+            { "createdAt": "2024-07-31T09:41:21.116749+00:00", "amount": 6125 },
+            { "createdAt": "2024-07-31T10:02:36.644918+00:00", "amount": 50 },
+            { "createdAt": "2024-07-31T10:05:39.813211+00:00", "amount": 100 },
+            { "createdAt": "2024-07-31T10:09:16.622611+00:00", "amount": 150 },
+            { "createdAt": "2024-07-31T10:26:23.355809+00:00", "amount": 200 },
+            { "createdAt": "2024-07-31T10:59:54.56077+00:00", "amount": 250 },
+            { "createdAt": "2024-07-31T11:13:08.430014+00:00", "amount": 300 },
+            { "createdAt": "2024-07-31T11:25:07.757084+00:00", "amount": 350 },
+            { "createdAt": "2024-07-31T11:51:39.915076+00:00", "amount": 400 },
+            { "createdAt": "2024-08-05T11:49:23.695209+00:00", "amount": 6125 },
+            { "createdAt": "2024-08-15T16:02:43.251794+00:00", "amount": 9200 }
+        ];
+
+        // Render the graph
+        renderGraph(transactions);
+    </script>
+
+</body>
+</html>

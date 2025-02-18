@@ -1,0 +1,83 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #18181B;
+}
+
+
+
+text {
+    font-size: 12px;
+}
+
+#skillText{
+    fill: grey;
+}
+
+#skillText:hover{
+    fill: aliceblue;
+    stroke: rgb(255, 255, 0);
+}
+
+polygon {
+    fill: rgba(173, 216, 230, 0.5);
+    stroke: rgba(173, 216, 230, 0.8);
+    stroke-width: 2;
+}
+
+line {
+    stroke: #555;
+    stroke-width: 1;
+}
+
+circle {
+    fill: none;
+    stroke: #444;
+    stroke-width: 1;
+}
+
+.radarcircle {
+    fill: rgb(116, 76, 2);
+}
+
+.radarcircle:hover{
+    fill: rgb(255, 166, 2);
+}
+
+.radar {
+    width: 50%;
+    /* margin-left: 25%; */
+    /* margin-right: auto; */
+    flex: 1; 
+    min-width: 300px; 
+    padding: 10px;
+}
+#xpchart {
+    width: 50%;
+}
+
+/* svg {
+    border: 1px solid black;
+    background-color: #f9f9f9;
+} */
+.axis-label {
+    font-size: 12px;
+    fill: black;
+}
+.tick {
+    stroke: black;
+    stroke-width: 0.5;
+}
+
+.tooltip {
+    position: absolute;
+    display: none;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px;
+    pointer-events: none;
+}
