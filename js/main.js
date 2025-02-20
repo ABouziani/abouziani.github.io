@@ -203,13 +203,13 @@ function showData() {
   dom.querySelector('.email').innerText = userInfos.email
   dom.querySelector('.phoneNumber').innerText = userInfos.tel
   dom.querySelector('.level').innerText = userInfos.level
-  dom.querySelector('.xpAmount').innerText = userInfos.xpAmount
+  dom.querySelector('.xpAmount').innerText = userInfos.xpAmount + " Kb"
   dom.querySelector('.ratio').innerText = userInfos.ratio
   let max = Math.max(userInfos.totalUp, userInfos.totalDown);
   dom.querySelector('.up').setAttribute('width', (userInfos.totalUp / max) * 300)
   dom.querySelector('.down').setAttribute('width', (userInfos.totalDown / max) * 300)
-  dom.querySelector('.done').textContent = `Done: (${userInfos.totalUp})`
-  dom.querySelector('.received').textContent = `Received: (${userInfos.totalDown})`
+  dom.querySelector('.done').textContent = `Done: (${userInfos.totalUp} Kb)`
+  dom.querySelector('.received').textContent = `Received: (${userInfos.totalDown} Kb)`
   document.body.innerHTML = dom.body.innerHTML
   drawRadar(userInfos.skills)
   drawXpChart(userInfos.xpProgress)
