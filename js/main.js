@@ -32,7 +32,7 @@ let container = `<div class="fixehome"></div>
             <label for="xpAmount">XP: </label>
             <div class="xpAmount"></div>
 
-            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100" viewBox="0 0 400 100" fill="red"
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 100" fill="red"
                 preserveAspectRatio="xMidYMid meet">
                 <text class="done" x="10" y="15" fill="white"></text>
                 <rect class="up" x="10" y="30" height="10" rx="10" fill="#404241" />
@@ -206,8 +206,8 @@ function showData() {
   dom.querySelector('.xpAmount').innerText = userInfos.xpAmount + " Kb"
   dom.querySelector('.ratio').innerText = userInfos.ratio
   let max = Math.max(userInfos.totalUp, userInfos.totalDown);
-  dom.querySelector('.up').setAttribute('width', (userInfos.totalUp / max) * 300)
-  dom.querySelector('.down').setAttribute('width', (userInfos.totalDown / max) * 300)
+  dom.querySelector('.up').setAttribute('width', (userInfos.totalUp / max) * 380)
+  dom.querySelector('.down').setAttribute('width', (userInfos.totalDown / max) * 380)
   dom.querySelector('.done').textContent = `Done: (${userInfos.totalUp} Kb)`
   dom.querySelector('.received').textContent = `Received: (${userInfos.totalDown} Kb)`
   document.body.innerHTML = dom.body.innerHTML
