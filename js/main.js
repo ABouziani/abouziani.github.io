@@ -34,9 +34,9 @@ let container = `<div class="fixehome"></div>
 
             <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100" viewBox="0 0 400 100" fill="red"
                 preserveAspectRatio="xMidYMid meet">
-                <text class="done" x="10" y="15" font-size="smaller" fill="white"></text>
+                <text class="done" x="10" y="15" fill="white"></text>
                 <rect class="up" x="10" y="30" height="10" rx="10" fill="#404241" />
-                <text class="received" x="10" y="65" font-size="smaller" fill="white"></text>
+                <text class="received" x="10" y="65" fill="white"></text>
                 <rect class="down" x="10" y="80" height="10" rx="10" fill="#202121" />
             </svg>
             <label for="ratio">Ratio: </label>

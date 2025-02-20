@@ -8,7 +8,7 @@ body {
 
 
 text {
-    font-size: 12px;
+    font-size: 15px;
 }
 
 #skillText{
@@ -45,17 +45,11 @@ circle {
     fill: rgb(255, 166, 2);
 }
 
-.radar {
-    /* width: 50%; */
-    /* min-width: 500px; */
-    /* margin-left: 25%; */
-    /* margin-right: auto; */
-    flex: 1; 
-    /* padding: 10px; */
-}
-.xpchart {
+
+.xpchart,.radar {
     /* width: 50%; */
     flex: 1; 
+    text-align: center;
     /* min-width: 500px; */
 }
 
