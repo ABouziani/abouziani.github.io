@@ -1,3 +1,16 @@
+let loginHTML  = `<div class="login-container">
+        <h2>Zone01 GraphQl</h2>
+            <div class="input-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" value="abouziani" required>
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" value="Love8iman-" required>
+            </div>
+            <button onclick="connect()" class="login-btn">Login</button>
+    </div>`
+
 let container = `<div class="fixehome"></div>
 <div class="container">
     <div class="userrow">
@@ -10,6 +23,7 @@ let container = `<div class="fixehome"></div>
 
             <label for="phoneNumber">Phone Num: </label>
             <div class="phoneNumber"></div>
+            <button onclick="logout()" class="logout-btn">Logout</button>
         </div>
         <div class="userInfos">
             <label for="level">Level: </label>
@@ -25,8 +39,8 @@ let container = `<div class="fixehome"></div>
                 <text class="received" x="10" y="65" font-size="smaller" fill="white"></text>
                 <rect class="down" x="10" y="80" height="10" rx="10" fill="#202121" />
             </svg>
-            <label style="margin-left:45%;" for="ratio">Ratio: </label>
-            <div class="ratio" style="margin-left:45%;"></div>
+            <label for="ratio">Ratio: </label>
+            <div class="ratio" ></div>
         </div>
     </div>
     <div class="techrow">
@@ -45,6 +59,14 @@ const signendpoint = "https://learn.zone01oujda.ma/api/auth/signin"
 const dataendpoint = "https://learn.zone01oujda.ma/api/graphql-engine/v1/graphql"
 let userInfos = {}
 
+
+if (!localStorage.getItem('JWT')){
+  document.body.innerHTML = loginHTML
+} else {
+  fetchData(localStorage.getItem('JWT'))
+}
+
+
 function connect() {
   let username = document.querySelector("#username").value
   let password = document.querySelector("#password").value
@@ -61,6 +83,7 @@ function connect() {
       throw new Error(response.status);
     }
   }).then(jwt => {
+    localStorage.setItem('JWT',jwt)
     fetchData(jwt)
   }).catch(error => console.log(error))
 }
@@ -194,18 +217,7 @@ function showData() {
 
 
 
-// window.addEventListener('resize', () => {
-//   console.log(document.body.clientWidth);
-  
-//   if (document.body.clientWidth < 1000) {
-//     let userrow = document.querySelector('.userrow')  
-//     let techrow = document.querySelector('.techrow')  
-//     userrow.style.flexFlow = "column";
-//     userrow.style.gap = "10px";
-//     techrow.style.flexFlow = "column";
-//     techrow.style.gap = "10px";
-//   } else {
-//     document.querySelector('.userrow').style.flexFlow = "row";
-//     document.querySelector('.techrow').style.flexFlow = "row";
-//   }
-// })
+function logout(){
+  localStorage.removeItem('JWT')
+  document.body.innerHTML = loginHTML
+}
