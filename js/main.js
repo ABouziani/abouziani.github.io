@@ -6,7 +6,7 @@ let loginHTML  = `<div class="login-container">
             </div>
             <div class="input-group">
                 <label for="password">Password</label>
-                <input type="password" id="password" value="Love8iman-" required>
+                <input type="password" id="password" required>
             </div>
             <button onclick="connect()" class="login-btn">Login</button>
     </div>`
