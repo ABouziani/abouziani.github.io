@@ -1,8 +1,7 @@
 body {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 100vh;
+    align-items: center; 
     background-color: #18181B;
 }
 
@@ -47,15 +46,17 @@ circle {
 }
 
 .radar {
-    width: 50%;
+    /* width: 50%; */
+    /* min-width: 500px; */
     /* margin-left: 25%; */
     /* margin-right: auto; */
     flex: 1; 
-    min-width: 300px; 
-    padding: 10px;
+    /* padding: 10px; */
 }
-#xpchart {
-    width: 50%;
+.xpchart {
+    /* width: 50%; */
+    flex: 1; 
+    /* min-width: 500px; */
 }
 
 /* svg {

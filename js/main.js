@@ -1,33 +1,45 @@
-let container = `<div class="container">
-        <div class="userrow">
-            <div class="userPerso">
-                <div class="fullName">John Doe</div>
-                <div class="email">john.doe@example.com</div>
-                <div class="phoneNumber">+1234567890</div>
-            </div>
-            <div class="userInfos">
-                <div class="level">Level: 5</div>
-                <div class="xpAmount">XP: 1200</div>
-                <div class="ratio">Ratio: 85%</div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100" viewBox="0 0 400 100" fill="red" preserveAspectRatio="xMidYMid meet">
-                <text x="10" y="15" font-size="smaller" fill="white">Done</text>      
-                <rect class="up" x="10" y="30" height="10" rx="10" fill="#404241"/>
-                <text x="10" y="65" font-size="smaller" fill="white">Received</text>      
-                <rect class="down" x="10" y="80"  height="10" rx="10" fill="#202121"/>
-                </svg>
-            </div>
+let container = `<div class="fixehome"></div>
+<div class="container">
+    <div class="userrow">
+        <div class="userPerso">
+            <label for="fullName">Full Name: </label>
+            <div class="fullName"></div>
+
+            <label for="email">Email: </label>
+            <div class="email"></div>
+
+            <label for="phoneNumber">Phone Num: </label>
+            <div class="phoneNumber"></div>
         </div>
-        <div class="techrow">
+        <div class="userInfos">
+            <label for="level">Level: </label>
+            <div class="level"></div>
+
+            <label for="xpAmount">XP: </label>
+            <div class="xpAmount"></div>
+
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100" viewBox="0 0 400 100" fill="red"
+                preserveAspectRatio="xMidYMid meet">
+                <text class="done" x="10" y="15" font-size="smaller" fill="white"></text>
+                <rect class="up" x="10" y="30" height="10" rx="10" fill="#404241" />
+                <text class="received" x="10" y="65" font-size="smaller" fill="white"></text>
+                <rect class="down" x="10" y="80" height="10" rx="10" fill="#202121" />
+            </svg>
+            <label style="margin-left:45%;" for="ratio">Ratio: </label>
+            <div class="ratio" style="margin-left:45%;"></div>
+        </div>
+    </div>
+    <div class="techrow">
         <div class="radar">
-        <h1>Skills :</h1>
-        <div id="tooltip" class="tooltip"></div>
-        <svg id="radarChart" width="100%" height="400" preserveAspectRatio="xMidYMid meet"></svg>
+            <h1>Skills :</h1>
+            <div id="tooltip" class="tooltip"></div>
+            <svg id="radarChart" viewBox="0 0 430 400" preserveAspectRatio="xMidYMid meet"></svg>
         </div>
-        <div id="xpchart">
-        <h1>XP progression :</h1>
+        <div class="xpchart">
+            <h1>XP progression :</h1>
         </div>
-        </div>
-    </div>`
+    </div>
+</div>`
 
 const signendpoint = "https://learn.zone01oujda.ma/api/auth/signin"
 const dataendpoint = "https://learn.zone01oujda.ma/api/graphql-engine/v1/graphql"
@@ -164,7 +176,7 @@ xpProgress:transaction(where:{
 
 function showData() {
   let dom = new DOMParser().parseFromString(container, 'text/html')
-  dom.querySelector('.fullName').innerText = userInfos.firstName + " " + userInfos.lastName
+  dom.querySelector('.fullName').innerText = `${userInfos.firstName} ${userInfos.lastName}`
   dom.querySelector('.email').innerText = userInfos.email
   dom.querySelector('.phoneNumber').innerText = userInfos.tel
   dom.querySelector('.level').innerText = userInfos.level
@@ -173,6 +185,8 @@ function showData() {
   let max = Math.max(userInfos.totalUp, userInfos.totalDown);
   dom.querySelector('.up').setAttribute('width', (userInfos.totalUp / max) * 300)
   dom.querySelector('.down').setAttribute('width', (userInfos.totalDown / max) * 300)
+  dom.querySelector('.done').textContent = `Done: (${userInfos.totalUp})`
+  dom.querySelector('.received').textContent = `Received: (${userInfos.totalDown})`
   document.body.innerHTML = dom.body.innerHTML
   drawRadar(userInfos.skills)
   drawXpChart(userInfos.xpProgress)
@@ -180,16 +194,18 @@ function showData() {
 
 
 
-window.addEventListener('resize', () => {
-  if (document.body.clientWidth < 1000) {
-    let userrow = document.querySelector('.userrow')  
-    let techrow = document.querySelector('.techrow')  
-    userrow.style.flexFlow = "column";
-    userrow.style.gap = "10px";
-    techrow.style.flexFlow = "column";
-    techrow.style.gap = "10px";
-  } else {
-    document.querySelector('.userrow').style.flexFlow = "row";
-    document.querySelector('.techrow').style.flexFlow = "row";
-  }
-})
+// window.addEventListener('resize', () => {
+//   console.log(document.body.clientWidth);
+  
+//   if (document.body.clientWidth < 1000) {
+//     let userrow = document.querySelector('.userrow')  
+//     let techrow = document.querySelector('.techrow')  
+//     userrow.style.flexFlow = "column";
+//     userrow.style.gap = "10px";
+//     techrow.style.flexFlow = "column";
+//     techrow.style.gap = "10px";
+//   } else {
+//     document.querySelector('.userrow').style.flexFlow = "row";
+//     document.querySelector('.techrow').style.flexFlow = "row";
+//   }
+// })

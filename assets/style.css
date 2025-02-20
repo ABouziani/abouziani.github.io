@@ -1,11 +1,11 @@
-body {
+/* body {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-color: #aaa8a8;
     font-family: Arial, sans-serif;
-}
+} */
 
 .login-container {
     background: white;
@@ -50,4 +50,35 @@ body {
 
 .login-btn:hover {
     background-color: #0056b3;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .container {
+        width: 100%;
+        /* min-width: 600px; */
+    }
+    .userrow,
+    .techrow {
+        width: 100%;
+        display: block;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        margin: auto;
+    }
+
+    .userPerso,
+    .userInfos {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .radar,
+    .xpchart{
+        width: 100%;
+        height: auto;
+        display: block;
+        margin-bottom: 20px;
+    }
+    
 }

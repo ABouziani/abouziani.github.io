@@ -24,8 +24,7 @@ function drawXpChart(data) {
 
     // Create SVG
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svg.setAttribute("width", "100%");
-    svg.setAttribute("height", height);
+    svg.setAttribute("viewBox", "0 0 500 "+height);
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
     
@@ -88,5 +87,5 @@ function drawXpChart(data) {
     svg.appendChild(total);
 
     // Append SVG to the container
-    document.getElementById("xpchart").appendChild(svg);
+    document.querySelector(".xpchart").appendChild(svg);
 }
