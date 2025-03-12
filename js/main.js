@@ -1,4 +1,4 @@
-let loginHTML  = `<div class="login-container">
+let loginHTML = `<div class="login-container">
         <h2>Zone01 GraphQl</h2>
             <div class="input-group">
                 <label for="username">Username</label>
@@ -9,6 +9,7 @@ let loginHTML  = `<div class="login-container">
                 <input type="password" id="password" required>
             </div>
             <button onclick="connect()" class="login-btn">Login</button>
+            <div style="color:red;" class="error"></div>
     </div>`
 
 let container = `<div class="fixehome"></div>
@@ -60,7 +61,7 @@ const dataendpoint = "https://learn.zone01oujda.ma/api/graphql-engine/v1/graphql
 let userInfos = {}
 
 
-if (!localStorage.getItem('JWT')){
+if (!localStorage.getItem('JWT')) {
   document.body.innerHTML = loginHTML
 } else {
   fetchData(localStorage.getItem('JWT'))
@@ -80,12 +81,21 @@ function connect() {
     if (response.ok) {
       return response.json()
     } else {
-      throw new Error(response.status);
+      throw response.status
     }
   }).then(jwt => {
-    localStorage.setItem('JWT',jwt)
+    localStorage.setItem('JWT', jwt)
     fetchData(jwt)
-  }).catch(error => console.log(error))
+  }).catch((error) => {
+    if (error == 403) {
+      document.querySelector(".error").innerText = "Invalid credentials!"
+      setTimeout(() => {
+        document.querySelector(".error").innerText = ""
+      }, 1000);
+      return
+    }
+    document.querySelector(".error").innerText = error
+  })
 }
 
 
@@ -173,7 +183,6 @@ xpProgress:transaction(where:{
     }
     return response.json()
   }).then(data => {
-    console.log(data);
 
     userInfos.firstName = data.data.user[0].firstName
     userInfos.lastName = data.data.user[0].lastName
@@ -194,7 +203,10 @@ xpProgress:transaction(where:{
     userInfos.xpProgress = []
     userInfos.xpProgress = data.data.xpProgress
     showData()
-  }).catch(err => console.log(err))
+  }).catch((error) => {
+    console.log(error);
+    logout()
+  })
 }
 
 function showData() {
@@ -217,7 +229,7 @@ function showData() {
 
 
 
-function logout(){
+function logout() {
   localStorage.removeItem('JWT')
   document.body.innerHTML = loginHTML
 }
