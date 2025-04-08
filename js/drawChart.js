@@ -1,37 +1,29 @@
 function drawXpChart(data) {
-    // Sort data by date
     data.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
 
-    // Calculate cumulative XP
     let cumulativeXP = 0;
     data.forEach(d => {
         cumulativeXP += d.amount;
         d.cumulativeXP = cumulativeXP;
     });
 
-    // Define SVG dimensions
     const width = 500, height = 350;
     const padding = 50;
 
-    // Convert timestamps to numeric values
     const times = data.map(d => new Date(d.createdAt).getTime());
     const xMin = Math.min(...times), xMax = Math.max(...times);
     const yMin = Math.min(...data.map(d => d.cumulativeXP)), yMax = Math.max(...data.map(d => d.cumulativeXP));
 
-    // Scale functions
     const xScale = t => padding + ((t - xMin) / (xMax - xMin)) * (width - 2 * padding);
     const yScale = xp => height - padding - ((xp - yMin) / (yMax - yMin)) * (height - 2 * padding);
 
-    // Create SVG
     const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svg.setAttribute("viewBox", "0 0 500 "+height);
     svg.setAttribute("preserveAspectRatio", "xMidYMid meet");
 
     
-    // Tooltip reference
     const tooltip = document.getElementById("tooltip");
 
-    // Draw lines
     for (let i = 0; i < data.length - 1; i++) {
         let line = document.createElementNS("http://www.w3.org/2000/svg", "line");
         line.setAttribute("x1", xScale(times[i]));
@@ -43,16 +35,12 @@ function drawXpChart(data) {
         svg.appendChild(line);
     }
 
-    let totalx = 0
-    let totaly = 0
-    // Draw points & tooltips
     data.forEach((d, i) => {
         let cx = xScale(times[i]);
         let cy = yScale(d.cumulativeXP);
         x = cx
         y = cy
 
-        // Circle for each point
         let circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
         circle.setAttribute("class", "radarcircle");
         circle.setAttribute("cx", cx);
@@ -62,7 +50,6 @@ function drawXpChart(data) {
         circle.setAttribute("data-xp", d.cumulativeXP);
         svg.appendChild(circle);
 
-        // Tooltip events
         circle.addEventListener("mouseover", (event) => {
             tooltip.style.display = "block";
             tooltip.textContent = `Date: ${circle.getAttribute("data-time")}\nXP: ${circle.getAttribute("data-xp")}`;
@@ -86,6 +73,5 @@ function drawXpChart(data) {
     total.textContent = `Total : ${cumulativeXP}`
     svg.appendChild(total);
 
-    // Append SVG to the container
     document.querySelector(".xpchart").appendChild(svg);
 }
